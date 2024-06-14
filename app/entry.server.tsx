@@ -10,7 +10,11 @@ export default async function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext,
 ) {
-  const {nonce, header, NonceProvider} = createContentSecurityPolicy();
+  const {nonce, header, NonceProvider} = createContentSecurityPolicy({
+    defaultSrc: ['https://cdn.shopify.com https://shopify.com http://localhost:*', 'self', 'https://maps.googleapis.com', 'https://maps.gstatic.com'],
+    connectSrc: ['self https://monorail-edge.shopifysvc.com http://localhost:* ws://localhost:* ws://127.0.0.1:* ws://*.tryhydrogen.dev:*', 'https://maps.googleapis.com'],
+    styleSrc: ['self', 'unsafe-inline', 'https://cdn.shopify.com', 'https://shopify.com', "http://localhost:*", "https://fonts.googleapis.com"],
+  });
 
   const body = await renderToReadableStream(
     <NonceProvider>
